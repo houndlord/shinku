@@ -3,7 +3,7 @@ from time import strftime
 strftime("%Y-%m-%d %H:%M:%S")
 
 def log(log_path, log_entry, src = None):
-    f = open(log_path, 'w')
+    f = open(log_path, 'a')
 
     if log_entry == 'init':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'initiating replication')

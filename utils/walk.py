@@ -5,6 +5,10 @@ from .file_tree import generate_files_tree
 from .log import log
 
 def walk(src, dst, log_path):
+    """Recursively traverses through implicit files tre of given directory replicating files that are 
+       present in target directory. Preserves permisions. 
+    
+    """
     src = Path(src)
     dst = Path(dst)
     src_file_tree = generate_files_tree(src)
@@ -20,7 +24,6 @@ def walk(src, dst, log_path):
                 walk(src/v.name, dst/v.name, log_path)
         else:
             if v.is_dir():
-                #print(v.name, 'mkdr')
                 path = dst/v.name
                 path.mkdir(mode=v.stat().st_mode, parents=True)
                 log(log_path, 'mkdir', str(Path(v.path)))
@@ -31,7 +34,7 @@ def walk(src, dst, log_path):
 
 def backwalk(src, dst, log_path):
     """Performs recursive deletiion of files that are not present in source directory. Note that 
-       src is path to source to maintain consistency with walk function.
+       src is path to source dir to maintain consistency with the walk function. 
     """
     src = Path(src)
     dst = Path(dst)
