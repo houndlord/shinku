@@ -2,6 +2,7 @@ import argparse
 import utils.walk
 import utils.log
 import time
+from pathlib import Path
 
 def parse():
     parser = argparse.ArgumentParser()
@@ -17,8 +18,21 @@ def replicate(src, dst, log_path):
     utils.walk.walk(src, dst, log_path)
     utils.walk.backwalk(src, dst, log_path)
 
+def check_path_existence(src, dst, log):
+    if Path.exists(Path(src)) == False:
+        print('cannot open file', src, 'file does not exist, aborting')
+        exit()
+    if Path.exists(Path(dst)) == False:
+        print('cannot open file', src, 'file does not exist, aborting')
+        exit()
+    if Path.exists(Path(log).parent) == False:
+        print('cannot open file', str(Path(log).parent), 'file does not exist, aborting')
+        exit()
+
+
 def main():
     src, dst, log_path, interval = parse()
+    check_path_existence(src, dst, log_path) 
     while True:
         replicate(src, dst, log_path)
         time.sleep(int(interval))
