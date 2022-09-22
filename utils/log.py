@@ -2,7 +2,8 @@ from time import strftime
 
 strftime("%Y-%m-%d %H:%M:%S")
 
-def log(log_path, log_entry, src = None):
+
+def log(log_path, log_entry, src=None):
     f = open(log_path, 'a', encoding='utf-8')
 
     if log_entry == 'init':
@@ -11,14 +12,13 @@ def log(log_path, log_entry, src = None):
 
     if log_entry == 'mkdir':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'creating directory', src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + 'creating directory ' + src + '\n')
+        f.write(
+            strftime("%Y-%m-%d %H:%M:%S") + 'creating directory ' + src + '\n')
 
     if log_entry == 'cp':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'copying file', src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' copying file ' + src +'\n')
- 
-    if log_entry == 'rm':
-        print(strftime("%Y-%m-%d %H:%M:%S"), 'removing file',  src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' removing file ' + src + '\n')
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' copying file ' + src + '\n')
 
-    
+    if log_entry == 'rm':
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'removing file', src)
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' removing file ' + src + '\n')
