@@ -6,3 +6,10 @@ Recursively and periodically copies all files from source directory to given dir
 ```
 python main.py /path/to/source /path/to/replica /path/to/log 5
 ```
+
+## Run tests
+
+
+```
+python -m pytest ./tests  
+```
