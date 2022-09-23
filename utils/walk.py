@@ -18,12 +18,12 @@ def walk(src, dst, log_path):
     dst = Path(dst)
     src_file_tree = generate_files_tree(src)
     dst_file_tree = generate_files_tree(dst)
-    for k, v in src_file_tree.items():  ##TODO: copy c_time
+    for k, v in src_file_tree.items():
         if v.name in dst_file_tree and v.stat().st_size == dst_file_tree[
                 v.name].stat().st_size:
             src_stat = os.stat(v.path)
             dst_stat = os.stat(dst_file_tree[v.name])
-            if src_stat.st_size == dst_stat.st_size:  #ctime
+            if src_stat.st_size == dst_stat.st_size:
                 if src_stat.st_mode != dst_stat.st_mode:
                     os.chmod(dst_file_tree[v.name].path, src_stat.st_mode)
             if v.is_dir():
