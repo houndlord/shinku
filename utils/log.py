@@ -11,14 +11,14 @@ def log(log_path, log_entry, src=None):
         f.write(strftime("%Y-%m-%d %H:%M:%S") + ' initiating replication \n')
 
     if log_entry == 'mkdir':
-        print(strftime("%Y-%m-%d %H:%M:%S"), 'creating directory', src)
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'created directory', src)
         f.write(
-            strftime("%Y-%m-%d %H:%M:%S") + 'creating directory ' + src + '\n')
+            strftime("%Y-%m-%d %H:%M:%S") + 'created directory ' + src + '\n')
 
     if log_entry == 'cp':
-        print(strftime("%Y-%m-%d %H:%M:%S"), 'copying file', src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' copying file ' + src + '\n')
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'copyied file', src)
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' copyied file ' + src + '\n')
 
     if log_entry == 'rm':
-        print(strftime("%Y-%m-%d %H:%M:%S"), 'removing file', src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' removing file ' + src + '\n')
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'removed file', src)
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' removed file ' + src + '\n')
