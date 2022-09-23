@@ -16,8 +16,8 @@ def log(log_path, log_entry, src=None):
             strftime("%Y-%m-%d %H:%M:%S") + 'created directory ' + src + '\n')
 
     if log_entry == 'cp':
-        print(strftime("%Y-%m-%d %H:%M:%S"), 'copyied file', src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' copyied file ' + src + '\n')
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'copied file', src)
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' copied file ' + src + '\n')
 
     if log_entry == 'rm':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'removed file', src)
