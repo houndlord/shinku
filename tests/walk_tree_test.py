@@ -4,33 +4,44 @@ from utils import walk
 import shutil
 import os
 
+
 def gen_random_string():
-    return ''.join(random.choice(string.ascii_letters) for i in range(random.randrange(0, 1000)))
+    return ''.join(
+        random.choice(string.ascii_letters)
+        for i in range(random.randrange(0, 1000)))
+
 
 def gen_random_string_len(length):
     return ''.join(random.choice(string.ascii_letters) for i in range(length))
+
 
 def create_test_dir():
     os.mkdir('./testdir')
     os.mkdir('./testdir/nesteddir1')
     os.mkdir('./testdir/nesteddir2')
 
+
 def rm_test_dir():
     shutil.rmtree('./testdir')
+
 
 def rm_dst_dir():
     shutil.rmtree('./dst')
 
+
 def create_dir_replicate_to():
     os.mkdir('./dst')
+
 
 def create_test_file(path):
     with open(path, 'w') as f:
         f.write(gen_random_string())
 
+
 def create_test_file_len(path, length):
     with open(path, 'w') as f:
         f.write(gen_random_string_len(length))
+
 
 def create_log_dir():
     try:
@@ -39,9 +50,14 @@ def create_log_dir():
         pass
     os.mkdir('./log')
 
+
 def rm_log_dir():
     shutil.rmtree('./log')
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 def delete_test_dirs():
     try:
         rm_test_dir()
@@ -52,12 +68,17 @@ def delete_test_dirs():
     except FileNotFoundError:
         pass
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 def setup_dirs():
     delete_test_dirs()
     create_test_dir()
     create_dir_replicate_to()
     create_test_file('./testdir/f')
     create_log_dir()
+
 
 def test_walk_basic():
     setup_dirs()
@@ -70,6 +91,7 @@ def test_walk_basic():
     delete_test_dirs()
     rm_log_dir()
 
+
 def test_walk_nested():
     setup_dirs()
     create_test_file('./testdir/nesteddir1/f')
@@ -81,6 +103,7 @@ def test_walk_nested():
     f2.close()
     delete_test_dirs()
     rm_log_dir()
+
 
 def test_walk_file_change_basic():
     setup_dirs()
@@ -97,6 +120,7 @@ def test_walk_file_change_basic():
     delete_test_dirs()
     rm_log_dir()
 
+
 def test_walk_file_change_nested():
     setup_dirs()
     create_test_file('./testdir/nesteddir1/f')
@@ -111,6 +135,7 @@ def test_walk_file_change_nested():
     f1.close()
     f2.close()
     delete_test_dirs()
+<<<<<<< HEAD
     rm_log_dir()
 
 def test_big_files():
@@ -197,14 +222,116 @@ def test_big_files_3():
     assert os.stat('./testdir/nesteddir2/f2').st_size == os.stat('./dst/nesteddir2/f2').st_size
 
     delete_test_dirs()
+=======
+>>>>>>> main
     rm_log_dir()
 
 
+def test_big_files():
+    setup_dirs()
+    create_test_file_len('./testdir/nesteddir1/f', 171824)
+    create_test_file_len('./testdir/nesteddir1/f1', 1421824)
+    create_test_file_len('./testdir/nesteddir2/f', 178224)
+    create_test_file_len('./testdir/nesteddir2/f1', 118224)
+    walk.walk('./testdir', './dst', './log/log')
 
-#def test_log_basic():
-#    setup_dirs()
-#    walk.walk('./testdir', './dst', './log/log')
-#    with open('./log/log', 'r') as f:
-#        i = len(f.readlines)
-#    assert i == 1
+    assert os.stat('./testdir/nesteddir1/f').st_size == os.stat(
+        './dst/nesteddir1/f').st_size
 
+    assert os.stat('./testdir/nesteddir1/f1').st_size == os.stat(
+        './dst/nesteddir1/f1').st_size
+
+    assert os.stat('./testdir/nesteddir2/f').st_size == os.stat(
+        './dst/nesteddir2/f').st_size
+
+    assert os.stat('./testdir/nesteddir2/f1').st_size == os.stat(
+        './dst/nesteddir2/f1').st_size
+
+    delete_test_dirs()
+    rm_log_dir()
+
+
+def test_big_files_2():
+    setup_dirs()
+    create_test_file_len('./testdir/nesteddir1/f', 1721824)
+    create_test_file_len('./testdir/nesteddir1/f1', 1421824)
+    create_test_file_len('./testdir/nesteddir1/f2', 1421824)
+    create_test_file_len('./testdir/nesteddir1/f3', 1421824)
+    create_test_file_len('./testdir/nesteddir2/f', 1718124)
+    create_test_file_len('./testdir/nesteddir2/f1', 118224)
+    create_test_file_len('./testdir/nesteddir2/f2', 1428524)
+    walk.walk('./testdir', './dst', './log/log')
+    assert os.stat('./testdir/nesteddir1/f').st_size == os.stat(
+        './dst/nesteddir1/f').st_size
+
+    assert os.stat('./testdir/nesteddir1/f1').st_size == os.stat(
+        './dst/nesteddir1/f1').st_size
+
+    assert os.stat('./testdir/nesteddir1/f2').st_size == os.stat(
+        './dst/nesteddir1/f2').st_size
+
+    assert os.stat('./testdir/nesteddir1/f3').st_size == os.stat(
+        './dst/nesteddir1/f3').st_size
+
+    assert os.stat('./testdir/nesteddir2/f').st_size == os.stat(
+        './dst/nesteddir2/f').st_size
+
+    assert os.stat('./testdir/nesteddir2/f1').st_size == os.stat(
+        './dst/nesteddir2/f1').st_size
+
+    assert os.stat('./testdir/nesteddir2/f2').st_size == os.stat(
+        './dst/nesteddir2/f2').st_size
+
+    delete_test_dirs()
+    rm_log_dir()
+
+
+def test_big_files_3():
+    setup_dirs()
+    os.mkdir('./testdir/nesteddir1/n')
+    create_test_file_len('./testdir/nesteddir1/f', 1721824)
+    create_test_file_len('./testdir/nesteddir1/f1', 1421824)
+    create_test_file_len('./testdir/nesteddir1/f2', 1421824)
+    create_test_file_len('./testdir/nesteddir1/f3', 14218524)
+    create_test_file_len('./testdir/nesteddir1/f4', 14218524)
+    create_test_file_len('./testdir/nesteddir1/n/f', 14218524)
+    create_test_file_len('./testdir/nesteddir1/n/f1', 14218524)
+    create_test_file_len('./testdir/nesteddir1/n/f2', 14218524)
+    create_test_file_len('./testdir/nesteddir2/f', 1718224)
+    create_test_file_len('./testdir/nesteddir2/f1', 118224)
+    create_test_file_len('./testdir/nesteddir2/f2', 1428524)
+    walk.walk('./testdir', './dst', './log/log')
+    assert os.stat('./testdir/nesteddir1/f').st_size == os.stat(
+        './dst/nesteddir1/f').st_size
+
+    assert os.stat('./testdir/nesteddir1/f1').st_size == os.stat(
+        './dst/nesteddir1/f1').st_size
+
+    assert os.stat('./testdir/nesteddir1/f2').st_size == os.stat(
+        './dst/nesteddir1/f2').st_size
+
+    assert os.stat('./testdir/nesteddir1/f3').st_size == os.stat(
+        './dst/nesteddir1/f3').st_size
+
+    assert os.stat('./testdir/nesteddir1/f4').st_size == os.stat(
+        './dst/nesteddir1/f4').st_size
+
+    assert os.stat('./testdir/nesteddir1/n/f').st_size == os.stat(
+        './dst/nesteddir1/n/f').st_size
+
+    assert os.stat('./testdir/nesteddir1/n/f1').st_size == os.stat(
+        './dst/nesteddir1/n/f1').st_size
+    assert os.stat('./testdir/nesteddir1/n/f2').st_size == os.stat(
+        './dst/nesteddir1/n/f2').st_size
+
+    assert os.stat('./testdir/nesteddir2/f').st_size == os.stat(
+        './dst/nesteddir2/f').st_size
+
+    assert os.stat('./testdir/nesteddir2/f1').st_size == os.stat(
+        './dst/nesteddir2/f1').st_size
+
+    assert os.stat('./testdir/nesteddir2/f2').st_size == os.stat(
+        './dst/nesteddir2/f2').st_size
+
+    delete_test_dirs()
+    rm_log_dir()
