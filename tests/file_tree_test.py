@@ -21,7 +21,7 @@ def test_basic():
         pass
     create_test_dir()
     t = file_tree.generate_files_tree('./testdir')
-    assert len(2) == 2
+    assert len(t) == 2
     rm_test_dir()
 
 def test_empty():
