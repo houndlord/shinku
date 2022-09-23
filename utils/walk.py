@@ -32,7 +32,7 @@ def walk(src, dst, log_path):
             if v.is_dir():
                 path = dst / v.name
                 path.mkdir(mode=v.stat().st_mode, parents=True)
-                log(log_path, 'mkdir', str(Path(v.path)))
+                log(log_path, 'mkdir', str(path))
                 walk(src / v.name, dst / v.name, log_path)
             else:
                 shutil.copy2(v.path, dst)  #TODO
