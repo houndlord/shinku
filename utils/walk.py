@@ -19,7 +19,7 @@ def walk(src, dst, log_path):
        simplicity and because it seems to be not hard to parallelise.
     
     """
-    e = concurrent.futures.ProcessPoolExecutor()
+    e = concurrent.futures.ProcessPoolExecutor(max_workers=32)
     src = Path(src)
     dst = Path(dst)
     src_file_tree = generate_files_tree(src)
