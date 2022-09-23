@@ -3,6 +3,11 @@ from pathlib import Path
 import os
 from .file_tree import generate_files_tree
 from .log import log
+import concurrent.futures
+
+#def copy(src, dst):
+#    shutil.copy2(src, dst)
+
 
 
 def walk(src, dst, log_path):
@@ -14,6 +19,7 @@ def walk(src, dst, log_path):
        simplicity and because it seems to be not hard to parallelise.
     
     """
+    e = concurrent.futures.ProcessPoolExecutor()
     src = Path(src)
     dst = Path(dst)
     src_file_tree = generate_files_tree(src)
@@ -27,7 +33,7 @@ def walk(src, dst, log_path):
                 if src_stat.st_mode != dst_stat.st_mode:
                     os.chmod(dst_file_tree[v.name].path, src_stat.st_mode)
             if v.is_dir():
-                walk(src / v.name, dst / v.name, log_path)
+                e.submit(walk(src / v.name, dst / v.name, log_path))
         else:
             if v.is_dir():
                 path = dst / v.name
@@ -35,9 +41,9 @@ def walk(src, dst, log_path):
                 log(log_path, 'mkdir', str(Path(v.path)))
                 walk(src / v.name, dst / v.name, log_path)
             else:
-                shutil.copy2(v.path, dst)  #TODO
+                e.submit(shutil.copy2(v.path, dst))  #TODO
                 log(log_path, 'cp', str(v.path))
-
+    e.shutdown()
 
 def backwalk(src, dst, log_path):
     """Performs recursive deletiion of files that are not present in source directory. Note that 
@@ -58,3 +64,5 @@ def backwalk(src, dst, log_path):
         else:
             if v.is_dir():
                 backwalk(src / v.name, dst / v.name, log_path)
+
+
