@@ -5,12 +5,16 @@ from .file_tree import generate_files_tree
 from .log import log
 import concurrent.futures
 
-#def copy(src, dst):
-#    shutil.copy2(src, dst)
+def copy(src, dst):
+    shutil.copy2(src, dst)
+
+def walking(src, dst):
+    files_to_copy = {}
+    walk(src, dst, files_to_copy)
+    return files_to_copy  
 
 
-
-def walk(src, dst, log_path):
+def walk(src, dst, items):
     """
        Recursively traverses through implicit files tree of given directory replicating files that are 
        present in target directory. Preserves permisions. 
@@ -19,31 +23,30 @@ def walk(src, dst, log_path):
        simplicity and because it seems to be not hard to parallelise.
     
     """
-    e = concurrent.futures.ProcessPoolExecutor(max_workers=32)
+
     src = Path(src)
     dst = Path(dst)
     src_file_tree = generate_files_tree(src)
     dst_file_tree = generate_files_tree(dst)
-    for k, v in src_file_tree.items():  ##TODO: copy c_time
+    for k, v in src_file_tree.items():
         if v.name in dst_file_tree and v.stat().st_size == dst_file_tree[
                 v.name].stat().st_size:
             src_stat = os.stat(v.path)
             dst_stat = os.stat(dst_file_tree[v.name])
-            if src_stat.st_size == dst_stat.st_size:  #ctime
+            if src_stat.st_size == dst_stat.st_size:
                 if src_stat.st_mode != dst_stat.st_mode:
                     os.chmod(dst_file_tree[v.name].path, src_stat.st_mode)
             if v.is_dir():
-                e.submit(walk(src / v.name, dst / v.name, log_path))
+                walk(src / v.name, dst / v.name, items)
         else:
             if v.is_dir():
                 path = dst / v.name
                 path.mkdir(mode=v.stat().st_mode, parents=True)
-                log(log_path, 'mkdir', str(Path(v.path)))
-                walk(src / v.name, dst / v.name, log_path)
+                #log(log_path, 'mkdir', str(path))
+                walk(src / v.name, dst / v.name, items)
             else:
-                e.submit(shutil.copy2(v.path, dst))  #TODO
-                log(log_path, 'cp', str(v.path))
-    e.shutdown()
+                items[(Path(v.path), dst)] =  'cp' #TODO
+                #log(log_path, 'cp', str(v.path))
 
 def backwalk(src, dst, log_path):
     """Performs recursive deletiion of files that are not present in source directory. Note that 
