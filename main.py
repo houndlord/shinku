@@ -3,6 +3,7 @@ import utils.walk
 import utils.log
 import time
 from pathlib import Path
+import concurrent.futures
 
 
 def parse():
@@ -18,8 +19,12 @@ def parse():
 
 def replicate(src, dst, log_path):
     utils.log.log(log_path, 'init')
-    utils.walk.walk(src, dst, log_path)
+    items = utils.walk.walking(src, dst)
+    e = concurrent.futures.ProcessPoolExecutor()
+    for k, v in items.items():
+        e.submit(utils.walk.copy(k[0], k[1]))
     utils.walk.backwalk(src, dst, log_path)
+    e.shutdown()
 
 
 def check_path_existence(src, dst, log):
