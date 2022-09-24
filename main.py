@@ -20,6 +20,7 @@ def replicate(src, dst, log_path):
     utils.log.log(log_path, 'init')
     utils.walk.walk(src, dst, log_path)
     utils.walk.backwalk(src, dst, log_path)
+    utils.log.log(log_path, 'end')
 
 
 def check_path_existence(src, dst, log):

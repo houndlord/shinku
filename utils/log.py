@@ -13,7 +13,7 @@ def log(log_path, log_entry, src=None):
     if log_entry == 'mkdir':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'created directory', src)
         f.write(
-            strftime("%Y-%m-%d %H:%M:%S") + 'created directory ' + src + '\n')
+            strftime("%Y-%m-%d %H:%M:%S") + ' created directory ' + src + '\n')
 
     if log_entry == 'cp':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'copied file', src)
@@ -22,3 +22,7 @@ def log(log_path, log_entry, src=None):
     if log_entry == 'rm':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'removed file', src)
         f.write(strftime("%Y-%m-%d %H:%M:%S") + ' removed file ' + src + '\n')
+
+    if log_entry == 'end':
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'finished replication')
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' finished replication \n')
