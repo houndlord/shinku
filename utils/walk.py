@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 from .file_tree import generate_files_tree
 from .log import log
+import sys
 
 
 def walk(src, dst, log_path):
@@ -34,7 +35,11 @@ def walk(src, dst, log_path):
                 log(log_path, 'mkdir', str(path))
                 walk(src / v.name, dst / v.name, log_path)
             else:
-                shutil.copy2(v.path, dst)  #TODO
+                try:
+                    shutil.copy2(v.path, dst)  #TODO
+                except PermissionError:
+                    log(log_path, 'perm', path)
+                    sys.exit()
                 log(log_path, 'cp', str(v.path))
 
 
@@ -50,13 +55,18 @@ def backwalk(src, dst, log_path):
         if v.name not in src_file_tree:
             if v.is_dir():
                 try:
-                    shutil.rmtree(v.path)  #TODO: errors???!!!
+                    shutil.rmtree(v.path)
                     log(log_path, 'rm', str(v.path))
                 except PermissionError:
                     log(log_path, 'perm', str(v.path))
+                    sys.exit()
             else:
-                os.remove(v.path)
-                log(log_path, 'rm', str(v.path))
+                try:
+                    os.remove(v.path)
+                    log(log_path, 'rm', str(v.path))
+                except PermissionError:
+                    log(log_path, 'perm', str(v.path))
+                    sys.exit()
         else:
             if v.is_dir():
                 backwalk(src / v.name, dst / v.name, log_path)

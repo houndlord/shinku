@@ -4,6 +4,7 @@ from utils import walk
 import shutil
 import os
 import pytest
+import sys
 
 
 def gen_random_string():
@@ -118,25 +119,28 @@ def test_backwalk_nested():
     rm_log_dir()
 
 
-def test_perms_basic():
-    with pytest.raises(SystemExit) as e:
-        setup_dirs()
-        os.chmod('./testdir', 16384)
-        r = walk.walk('./testdir', './dst', './log/log')
-        assert e.type == SystemExit
-        assert e.value.code == 1
-        os.chmod('./testdir', 16877)
-        delete_test_dirs()
-        rm_log_dir()
+if sys.platform.startswith('win'):
+    pass
+else:
 
+    def test_perms_basic():
+        with pytest.raises(SystemExit) as e:
+            setup_dirs()
+            os.chmod('./testdir', 16384)
+            r = walk.walk('./testdir', './dst', './log/log')
+            assert e.type == SystemExit
+            assert e.value.code == 1
+            os.chmod('./testdir', 16877)
+            delete_test_dirs()
+            rm_log_dir()
 
-def test_perms_backwalk_basic():
-    with pytest.raises(SystemExit) as e:
-        setup_dirs()
-        os.chmod('./testdir', 16384)
-        r = walk.backwalk('./testdir', './dst', './log/log')
-        assert e.type == SystemExit
-        assert e.value.code == 1
-        os.chmod('./testdir', 16877)
-        delete_test_dirs()
-        rm_log_dir()
+    def test_perms_backwalk_basic():
+        with pytest.raises(SystemExit) as e:
+            setup_dirs()
+            os.chmod('./testdir', 16384)
+            r = walk.backwalk('./testdir', './dst', './log/log')
+            assert e.type == SystemExit
+            assert e.value.code == 1
+            os.chmod('./testdir', 16877)
+            delete_test_dirs()
+            rm_log_dir()
