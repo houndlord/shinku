@@ -177,7 +177,3 @@ def test_big_files_3():
 
     walk_tree_test.delete_test_dirs()
     walk_tree_test.rm_log_dir()
-
-
-def test_perf():
-    main.replicate('/home/houndlord/Downloads/',  '/home/houndlord/dd', '/home/houndlord/log')
