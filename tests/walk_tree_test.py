@@ -144,3 +144,15 @@ else:
             os.chmod('./testdir', 16877)
             delete_test_dirs()
             rm_log_dir()
+
+    def test_walk_perms():
+        with pytest.raises(SystemExit) as e:
+            setup_dirs()
+            create_test_file('./testdir/f')
+            os.chmod('./testdir/f', 16384)
+            r = walk.walk('./testdir', './dst', './log/log')
+            assert e.type == SystemExit
+            assert e.value.code == 1
+            os.chmod('./testdir/f', 16877)
+            delete_test_dirs()
+            rm_log_dir()
