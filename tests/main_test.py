@@ -68,7 +68,7 @@ def test_walk_file_change_nested():
     walk_tree_test.delete_test_dirs()
     walk_tree_test.rm_log_dir()
 
-
+"""
 def test_big_files():
     walk_tree_test.setup_dirs()
     walk_tree_test.create_test_file_len('./testdir/nesteddir1/f', 171824)
@@ -181,3 +181,17 @@ def test_big_files_3():
 
 def test_perf():
     main.replicate('/home/houndlord/Downloads/',  '/home/houndlord/dd', '/home/houndlord/log')
+"""
+"""
+def test_perms():
+    walk_tree_test.setup_dirs()
+    os.chmod('./testdir', 15384)
+    main.replicate('./testdir', './dst', './log/log')
+    f1 = open('./testdir/f')
+    f2 = open('./dst/f')
+    assert f1.read() == f2.read()
+    f1.close()
+    f2.close()
+    walk_tree_test.delete_test_dirs()
+    walk_tree_test.rm_log_dir()
+"""
