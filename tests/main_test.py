@@ -69,7 +69,7 @@ def test_walk_file_change_nested():
     walk_tree_test.rm_log_dir()
 
 
-
+"""
 def test_big_files():
     walk_tree_test.setup_dirs()
     walk_tree_test.create_test_file_len('./testdir/nesteddir1/f', 171824)
@@ -178,6 +178,7 @@ def test_big_files_3():
 
     walk_tree_test.delete_test_dirs()
     walk_tree_test.rm_log_dir()
+"""
 
 
 def test_perms_basic():

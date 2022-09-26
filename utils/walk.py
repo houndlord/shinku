@@ -49,8 +49,11 @@ def backwalk(src, dst, log_path):
     for k, v in dst_file_tree.items():
         if v.name not in src_file_tree:
             if v.is_dir():
-                shutil.rmtree(v.path)  #TODO: errors???!!!
-                log(log_path, 'rm', str(v.path))
+                try:
+                    shutil.rmtree(v.path)  #TODO: errors???!!!
+                    log(log_path, 'rm', str(v.path))
+                except PermissionError:
+                    log(log_path, 'perm', str(v.path))
             else:
                 os.remove(v.path)
                 log(log_path, 'rm', str(v.path))
