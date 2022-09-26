@@ -28,6 +28,8 @@ def log(log_path, log_entry, src=None):
         f.write(strftime("%Y-%m-%d %H:%M:%S") + ' finished replication \n')
 
     if log_entry == 'perm':
-        print(strftime("%Y-%m-%d %H:%M:%S"), 'permission error on', src)
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + ' permission error on' + src +  '\n')
-
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'permission error on', src,
+              'aborting')
+        f.write(
+            strftime("%Y-%m-%d %H:%M:%S") + ' permission error on' + str(src) +
+            ' aborting' + '\n')

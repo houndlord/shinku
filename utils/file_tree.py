@@ -3,7 +3,7 @@ from .log import log
 import sys
 
 
-def generate_files_tree(path):
+def generate_files_tree(path, log_path):
     """
        Generates dictionary of all files in given directory.
     """
@@ -14,6 +14,5 @@ def generate_files_tree(path):
                 files_tree[entry.name] = entry
         return files_tree
     except PermissionError:
-        log('perm', path)
-        print('xyj')
+        log(log_path, 'perm', path)
         sys.exit()

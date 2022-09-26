@@ -15,8 +15,8 @@ def walk(src, dst, log_path):
     """
     src = Path(src)
     dst = Path(dst)
-    src_file_tree = generate_files_tree(src)
-    dst_file_tree = generate_files_tree(dst)
+    src_file_tree = generate_files_tree(src, log_path)
+    dst_file_tree = generate_files_tree(dst, log_path)
     for k, v in src_file_tree.items():
         if v.name in dst_file_tree and v.stat().st_size == dst_file_tree[
                 v.name].stat().st_size:
@@ -44,8 +44,8 @@ def backwalk(src, dst, log_path):
     """
     src = Path(src)
     dst = Path(dst)
-    src_file_tree = generate_files_tree(src)
-    dst_file_tree = generate_files_tree(dst)
+    src_file_tree = generate_files_tree(src, log_path)
+    dst_file_tree = generate_files_tree(dst, log_path)
     for k, v in dst_file_tree.items():
         if v.name not in src_file_tree:
             if v.is_dir():
