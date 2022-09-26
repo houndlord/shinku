@@ -22,6 +22,7 @@ def create_test_dir():
 
 
 def rm_test_dir():
+    os.chmod('./testdir', 16877)
     shutil.rmtree('./testdir')
 
 

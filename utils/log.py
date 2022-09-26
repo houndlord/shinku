@@ -26,3 +26,10 @@ def log(log_path, log_entry, src=None):
     if log_entry == 'end':
         print(strftime("%Y-%m-%d %H:%M:%S"), 'finished replication')
         f.write(strftime("%Y-%m-%d %H:%M:%S") + ' finished replication \n')
+
+    if log_entry == 'perm':
+        print(strftime("%Y-%m-%d %H:%M:%S"), 'permission error on', src,
+              'aborting')
+        f.write(
+            strftime("%Y-%m-%d %H:%M:%S") + ' permission error on' + str(src) +
+            ' aborting' + '\n')

@@ -1,6 +1,7 @@
 from utils import file_tree
 import os
 import shutil
+import walk_tree_test
 
 
 def create_test_dir():
@@ -14,6 +15,7 @@ def create_empty_test_dir():
 
 
 def rm_test_dir():
+    #os.chmod('/testdir', 16877)
     shutil.rmtree('./testdir')
 
 
@@ -23,13 +25,17 @@ def test_basic():
     except FileNotFoundError:
         pass
     create_test_dir()
-    t = file_tree.generate_files_tree('./testdir')
+    walk_tree_test.create_log_dir()
+    t = file_tree.generate_files_tree('./testdir', './log/log')
     assert len(t) == 2
     rm_test_dir()
+    walk_tree_test.rm_log_dir()
 
 
 def test_empty():
+    walk_tree_test.create_log_dir()
     create_empty_test_dir()
-    t = file_tree.generate_files_tree('./testdir')
+    t = file_tree.generate_files_tree('./testdir', './log/log')
     assert [] == [k for k, v in t.items()]
     rm_test_dir()
+    walk_tree_test.rm_log_dir()
