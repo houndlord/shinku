@@ -3,6 +3,7 @@ import utils.walk
 import utils.log
 import time
 from pathlib import Path
+import sys
 
 
 def parse():
@@ -26,14 +27,14 @@ def replicate(src, dst, log_path):
 def check_path_existence(src, dst, log):
     if Path.exists(Path(src)) == False:
         print('cannot open file', src, 'file does not exist, aborting')
-        exit()
+        sys.exit()
     if Path.exists(Path(dst)) == False:
         print('cannot open file', src, 'file does not exist, aborting')
-        exit()
+        sys.exit()
     if Path.exists(Path(log).parent) == False:
         print('cannot open file', str(Path(log).parent),
               'file does not exist, aborting')
-        exit()
+        sys.exit()
 
 
 def main():

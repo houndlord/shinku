@@ -7,11 +7,11 @@ from .log import log
 
 def walk(src, dst, log_path):
     """
-       Recursively traverses through implicit files tree of given directory replicating files that are 
-       present in target directory. Preserves permisions. 
-       This approach: to walk on each iteration for one layer of implicit files tree was choosed for
-       simplicity and because it seems to be not hard to parallelise.
-    
+       Recursively traverses through implicit files tree of given 
+       directory replicating files that are present in target directory. 
+       Preserves permisions. 
+       This approach: to walk on each iteration for one layer of implicit files tree was chosen for
+       simplicity.
     """
     src = Path(src)
     dst = Path(dst)
