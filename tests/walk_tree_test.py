@@ -18,9 +18,13 @@ def gen_random_string_len(length):
 
 
 def create_test_dir():
-    os.mkdir('./testdir')
-    os.mkdir('./testdir/nesteddir1')
-    os.mkdir('./testdir/nesteddir2')
+    try:
+        os.mkdir('./testdir')
+        os.mkdir('./testdir/nesteddir1')
+        os.mkdir('./testdir/nesteddir2')
+    except FileExistsError:
+        rm_test_dir()
+        create_test_dir()
 
 
 def rm_test_dir():
